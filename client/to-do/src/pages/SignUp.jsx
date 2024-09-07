@@ -1,8 +1,10 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 export default function SignUp() {
   const [formData,setFormData] = useState({});
   const [error,setError] = useState(null);
+  const navigate = useNavigate();
   const handleChange = (e)=>
   {
     setFormData({...formData,[e.target.id]:e.target.value})
@@ -26,7 +28,7 @@ export default function SignUp() {
         setError(data.message);
         return;
       }
-      console.log(data);
+      navigate('/sign-in');
     }
     catch(error)
     {

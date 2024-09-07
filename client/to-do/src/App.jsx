@@ -5,6 +5,7 @@ import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import About from './pages/About'
 import Header from './components/Header.jsx'
+import TodoList from './pages/TodoList.jsx'
 function App() {
 
 
@@ -16,6 +17,7 @@ function App() {
       <Route path='/sign-in' element={<SignIn/>} />
       <Route path='/sign-up' element={<SignUp/>} />
       <Route path='/about' element={<About/>} />
+      <Route path='/to-do' element={<TodoList/>}/>
     </Routes>
    </BrowserRouter>
   )
