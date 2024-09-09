@@ -28,7 +28,8 @@ export default function SignIn() {
     setError(data.message);
     return;
   }
-  navigate('/to-do');
+
+  navigate(`/to-do/${data._id}`);
   }
   catch(error)
   {
