@@ -1,24 +1,52 @@
-import {  useState } from "react"
-
-
+/* eslint-disable no-unused-vars */
+import {  useEffect, useState } from "react"
+import { useParams } from "react-router-dom";
+import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 export default function TodoList() {
+ 
   const [todoData,setTodoData] = useState('');
-  const [todoArray,setTodoArray] = useState([]);
+  const [error,setError] = useState(null);
+ 
+  const [todoArray,setTodoArray] = useState({
+    todo:[],
+  });
   const handleChange = (e)=>
   {
-  setTodoData(e.target.value);
+  if(e.target.id=='todo')
+  {
+    setTodoData(e.target.value);
+  }
   }
   const addButton = (e)=>
   {
   e.preventDefault();
-  setTodoArray([...todoArray,todoData]);
+  setTodoArray({...todoArray,todo:todoArray.todo.concat(todoData)});
   setTodoData('');
   document.getElementById('todo').value = "";
   }
  const handleDelete = (index)=>
  {
- const newArray = todoArray.filter((_,i)=>i!==index);
- setTodoArray(newArray);
+ const newArray = todoArray.todo.filter((_,i)=>i!==index);
+ setTodoArray({todo:newArray});
+ }
+ const handleUp = (index)=>
+ {
+ 
+ if(index>0)
+ {
+  const newArray = [...todoArray.todo];
+  [newArray[index],newArray[index-1]] = [newArray[index-1],newArray[index]];
+  setTodoArray({...todoArray,todo:newArray});
+ }
+ }
+ const handleDown = (index)=>
+ {
+if(index<todoArray.todo.length-1)
+{
+  const newArray = [...todoArray.todo];
+  [newArray[index],newArray[index+1]] = [newArray[index+1],newArray[index]];
+  setTodoArray({...todoArray,todo:newArray});
+}
  }
   return (
     <form>
@@ -34,18 +62,14 @@ export default function TodoList() {
           </div> 
           <ul className="w-[500px] text-left">
             {
-              todoArray.length>0&&(
-                todoArray.map((todo,index)=>(
+              todoArray.todo.length>0&&(
+                todoArray.todo.map((todo,index)=>(
                 <li key={index} className="flex gap-2 items-center m-3  font-bold  rounded-lg shadow MD  p-3">
                  <p className="text-xl flex-1">
                   {todo}
                  </p>
-                 <div className="flex items-center gap-1 border p-2 shadow-lg">
-                 <label>
-                  Done
-                 </label>
-                 <input type="checkbox" className="w-5 h-4"/>
-                 </div>
+                 <FaArrowUp className="text-lg cursor-pointer" onClick={()=>handleUp(index)}/>
+                 <FaArrowDown  className="text-blue-700 text-lg cursor-pointer" onClick={()=>handleDown(index)}/>
                  <button type="button" className="bg-red-600 text-white rounded-lg p-2" onClick={()=> handleDelete(index)}>
                   Delete
                 </button> 
@@ -54,9 +78,13 @@ export default function TodoList() {
               )
             }
             </ul>
-          <button className="w-full bg-blue-700 max-w-sm p-3 text-white uppercase rounded-lg hover:opacity-95">
-           Update
-          </button>
+        
+          {
+            error && 
+            <p className=" mt-3 text-sm text-red-500">
+              {error}
+            </p>
+          }
       </div>
      
     </form>
