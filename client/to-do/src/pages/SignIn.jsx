@@ -1,10 +1,13 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
+import {useDispatch,useSelector} from 'react-redux'
+import { signInStart,signInFailure,signInSuccess } from "../redux/user/userSlice";
 export default function SignIn() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData,setFormData] = useState({});
-  const [error,setError] = useState(null);
+  const {error,loading} = useSelector((state)=>state.user);
   const handleChange = (e)=>
     {
       setFormData({...formData,[e.target.id]:e.target.value})
@@ -14,7 +17,7 @@ export default function SignIn() {
   e.preventDefault();
   try
   {
-  setError(null);
+  dispatch(signInStart());
   const res = await fetch('/api/auth/sign-in',{
     method:'post',
     headers:{
@@ -25,15 +28,15 @@ export default function SignIn() {
   const data = await res.json();
   if(data.success===false)
   {
-    setError(data.message);
+    dispatch(signInFailure(data.message));
     return;
   }
-
+  dispatch(signInSuccess(data));
   navigate(`/to-do/${data._id}`);
   }
   catch(error)
   {
-    setError(error);
+    dispatch(signInFailure(error.message));
   }
   }
   return (
@@ -44,8 +47,8 @@ export default function SignIn() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-3 w-[300px] sm:w-[350px]">
         <input type="email" placeholder="Enter your email" id="email" className="p-3 border rounded-md" onChange={handleChange}/>
         <input type="password" placeholder="Password"  id="password" className="p-3 border rounded-md" onChange={handleChange}/>
-        <button className="p-3 bg-green-700 text-white rounded-lg uppercase">
-          Sign In
+        <button disabled={loading} className="p-3 bg-green-700 text-white rounded-lg uppercase">
+          {loading?<p>loading..</p>:<p>Sign in</p>}
         </button>
       </form>
       {

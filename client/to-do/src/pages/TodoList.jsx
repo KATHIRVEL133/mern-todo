@@ -6,7 +6,6 @@ export default function TodoList() {
  
   const [todoData,setTodoData] = useState('');
   const [error,setError] = useState(null);
- 
   const [todoArray,setTodoArray] = useState({
     todo:[],
   });
@@ -50,7 +49,7 @@ if(index<todoArray.todo.length-1)
  }
   return (
     <form>
-     <div className="flex flex-col gap-6 items-center my-52 ">
+     <div className="flex flex-col gap-6 items-center my-52">
           <h1 className="font-semibold text-3xl text-slate-500">
             <span className="text-green-500">TodoList</span> for your greater productivity
           </h1>
