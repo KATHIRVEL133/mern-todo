@@ -110,8 +110,32 @@ if(index<todoArray.todo.length-1)
     console.log(error);
   }
  }
+ const handleSubmit = async ()=>
+ {
+  try
+  {
+  const res = await fetch(`/api/user/create`,{
+    method:'post',
+    headers:{
+      'Content-Type':'application/json',
+    },
+    body:JSON.stringify({...todoArray,userRef:currentUser._id})
+  });
+  const data = await res.json();
+  if(data.success===false)
+  {
+    console.log(data);
+    return;
+  }
+  setTodoArray({todo:data.todo});
+  }
+  catch(error)
+  {
+    console.log(error);
+  }
+ }
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
      <div className="flex flex-col gap-6 items-center my-52">
           <h1 className="font-semibold text-3xl text-slate-500">
             <span className="text-green-500">TodoList</span> for your greater productivity
@@ -148,7 +172,7 @@ if(index<todoArray.todo.length-1)
           }
           {
             !existTodo&&
-            <button className="rounded-lg w-[500px] p-3 bg-green-600 text-white uppercase">
+            <button  className="rounded-lg w-[500px] p-3 bg-green-600 text-white uppercase">
               Create
             </button>
           }

@@ -24,7 +24,6 @@ export const existTodo = async (req,res,next)=>
 try
 {
     const todo = await  Todo.exists({userRef:req.params.id});
-    console.log(todo);
     if(todo)
     {
         return res.status(200).json('yes');
@@ -46,6 +45,18 @@ export const updateTodo = async (req,res,next)=>
     {
         const updatedTodo =  await Todo.findByIdAndUpdate(req.params.id,req.body,{new:true});
         res.status(200).json(updatedTodo);
+    }
+    catch(error)
+    {
+        next(error);
+    }
+}
+export const createTodo = async (req,res,next) =>
+{
+    try
+    {
+        const todo = await Todo.create(req.body);
+        res.status(200).json(todo);
     }
     catch(error)
     {
