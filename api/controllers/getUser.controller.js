@@ -40,3 +40,15 @@ catch(error)
     next(error);
 }
 }
+export const updateTodo = async (req,res,next)=>
+{
+    try
+    {
+        const updatedTodo =  await Todo.findByIdAndUpdate(req.params.id,req.body,{new:true});
+        res.status(200).json(updatedTodo);
+    }
+    catch(error)
+    {
+        next(error);
+    }
+}

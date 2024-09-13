@@ -6,6 +6,8 @@ export default function TodoList() {
   const {currentUser} = useSelector((state)=>state.user)
   const [todoData,setTodoData] = useState('');
   const [error,setError] = useState(null);
+  const [existTodo,setExistsTodo] = useState(false);
+  const [todoId,setTodoId] = useState(null);
   const [todoArray,setTodoArray] = useState({
     todo:[],
   });
@@ -13,6 +15,7 @@ export default function TodoList() {
   {
     const userExist = async () =>
     {
+    setExistsTodo(false);
     const res = await fetch(`/api/user/existUserTodo/${currentUser._id}`);
     const data = await res.json();
     if(data.success===false)
@@ -21,7 +24,10 @@ export default function TodoList() {
       return;
     }
     if(data==='yes')
+    {
+      setExistsTodo(true);
       fetchData();
+    }
     else 
       return ;
     }
@@ -35,6 +41,7 @@ export default function TodoList() {
       return ;
     }
     setTodoArray({todo:data.todo});
+    setTodoId(data._id);
     }
     userExist();
   },[])
@@ -76,6 +83,33 @@ if(index<todoArray.todo.length-1)
   setTodoArray({...todoArray,todo:newArray});
 }
  }
+ const handleUpdate = async ()=>
+ {
+  try
+  {
+  const res = await fetch(`/api/user/update/${todoId}`,{
+    method:'POST',
+    headers:
+    {
+         'Content-Type':'application/json',
+    },
+    body:JSON.stringify(todoArray)
+   ,
+  });
+  const data = await res.json();
+  if(data.success===false)
+  {
+    console.log(error);
+    return ;
+  }
+  console.log(data);
+  setTodoArray({todo:data.todo});
+  }
+  catch(error)
+  {
+    console.log(error);
+  }
+ }
   return (
     <form>
      <div className="flex flex-col gap-6 items-center my-52">
@@ -105,8 +139,19 @@ if(index<todoArray.todo.length-1)
                 ))
               )
             }
-            </ul>
-        
+          </ul>
+          {
+            existTodo && 
+            <button type="button" onClick={handleUpdate} className="rounded-lg w-[500px] p-3 bg-red-600 text-white uppercase">
+              Update
+            </button>
+          }
+          {
+            !existTodo&&
+            <button className="rounded-lg w-[500px] p-3 bg-green-600 text-white uppercase">
+              Create
+            </button>
+          }
           {
             error && 
             <p className=" mt-3 text-sm text-red-500">
