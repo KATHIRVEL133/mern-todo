@@ -32,7 +32,7 @@ export default function SignIn() {
     return;
   }
   dispatch(signInSuccess(data));
-  navigate(`/to-do/${data._id}`);
+  navigate(`/to-do`);
   }
   catch(error)
   {

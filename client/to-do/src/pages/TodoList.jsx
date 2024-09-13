@@ -1,14 +1,43 @@
 /* eslint-disable no-unused-vars */
 import {  useEffect, useState } from "react"
-import { useParams } from "react-router-dom";
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
+import { useSelector } from "react-redux";
 export default function TodoList() {
- 
+  const {currentUser} = useSelector((state)=>state.user)
   const [todoData,setTodoData] = useState('');
   const [error,setError] = useState(null);
   const [todoArray,setTodoArray] = useState({
     todo:[],
   });
+  useEffect(()=>
+  {
+    const userExist = async () =>
+    {
+    const res = await fetch(`/api/user/existUserTodo/${currentUser._id}`);
+    const data = await res.json();
+    if(data.success===false)
+    {
+      console.log(data.message);
+      return;
+    }
+    if(data==='yes')
+      fetchData();
+    else 
+      return ;
+    }
+    const fetchData = async () =>
+    {
+    const res = await fetch(`/api/user/getUserTodo/${currentUser._id}`);
+    const data = await res.json();
+    if(data.success===false)
+    {
+      console.log(data.message);
+      return ;
+    }
+    setTodoArray({todo:data.todo});
+    }
+    userExist();
+  },[])
   const handleChange = (e)=>
   {
   if(e.target.id=='todo')
