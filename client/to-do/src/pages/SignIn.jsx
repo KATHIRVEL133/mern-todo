@@ -3,11 +3,12 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import {useDispatch,useSelector} from 'react-redux'
 import { signInStart,signInFailure,signInSuccess } from "../redux/user/userSlice";
+import { Link } from "react-router-dom";
 export default function SignIn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData,setFormData] = useState({});
-  const {error,loading} = useSelector((state)=>state.user);
+  const {loading,error} = useSelector((state)=>state.user);
   const handleChange = (e)=>
     {
       setFormData({...formData,[e.target.id]:e.target.value})
@@ -32,7 +33,7 @@ export default function SignIn() {
     return;
   }
   dispatch(signInSuccess(data));
-  navigate(`/to-do`);
+  navigate('/to-do');
   }
   catch(error)
   {
@@ -51,6 +52,12 @@ export default function SignIn() {
           {loading?<p>loading..</p>:<p>Sign in</p>}
         </button>
       </form>
+      <p>
+        Dont you have an account ?  
+        <Link className="ml-2 text-blue-600 underline" to={'/sign-up'}>
+         Sign Up
+        </Link>
+      </p>
       {
         error&&<p className="text-red-600 text-sm">
           {error}
