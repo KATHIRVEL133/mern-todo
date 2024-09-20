@@ -41,7 +41,7 @@ export default function SignIn() {
   }
   }
   return (
-    <div className="flex flex-col justify-between items-center mt-52 gap-5"> 
+    <div className="flex flex-col justify-between items-center mt-32 sm:mt-52 gap-5"> 
       <h1 className="font-semibold text-2xl">
         Sign In 
       </h1>
