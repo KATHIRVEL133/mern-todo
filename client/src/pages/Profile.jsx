@@ -64,10 +64,10 @@ export default function Profile() {
   }
   return (
     <div className="flex flex-col gap-3 max-w-lg mx-auto my-44">
-       <h1 className="font-semibold  text-2xl ml-28">
+       <h1 className="font-semibold  text-2xl text-center sm:ml-28">
         Profile
       </h1>
-      <form onSubmit={handleUpdate} className="flex flex-col gap-3 w-[300px] sm:w-[350px]">
+      <form onSubmit={handleUpdate} className="flex flex-col gap-3 w-full sm:w-[300px] sm:w-[350px]">
         <input type="text"  onChange={handleChange} defaultValue={currentUser.username} placeholder="Username" id="username"   className="p-3 border rounded-md"/>
         <input type="email"   onChange={handleChange}  defaultValue={currentUser.email} placeholder="Enter your email" id="email"   className="p-3 border rounded-md"/>
         <input type="password"   onChange={handleChange}  placeholder="Password" id="password"   className="p-3 border rounded-md"/>
@@ -75,7 +75,7 @@ export default function Profile() {
           Update
         </button>
       </form>
-      <button type="button" className="p-3 text-white bg-red-600 w-[350px] rounded-lg" onClick={handleSignOut}>
+      <button type="button" className="p-3 text-white bg-red-600 w-full sm:w-[350px] rounded-lg" onClick={handleSignOut}>
         Sign Out
       </button>
       {

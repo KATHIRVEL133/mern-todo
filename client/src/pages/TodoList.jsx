@@ -138,7 +138,7 @@ if(index<todoArray.todo.length-1)
   return (
     <form onSubmit={handleSubmit}>
      <div className="flex flex-col gap-6 items-center my-52">
-          <h1 className="font-semibold text-3xl text-slate-500">
+          <h1 className="font-semibold text-xl sm:text-3xl text-slate-500">
             <span className="text-green-500">TodoList</span> for your greater productivity
           </h1>
           <div className="flex gap-2">
@@ -147,7 +147,7 @@ if(index<todoArray.todo.length-1)
               Add
             </button>
           </div> 
-          <ul className="w-[500px] text-left">
+          <ul className="w-full sm:w-[500px] text-left">
             {
               todoArray.todo.length>0&&(
                 todoArray.todo.map((todo,index)=>(
@@ -167,13 +167,13 @@ if(index<todoArray.todo.length-1)
           </ul>
           {
             existTodo && 
-            <button type="button" onClick={handleUpdate} className="rounded-lg w-[500px] p-3 bg-red-600 text-white uppercase">
+            <button type="button" onClick={handleUpdate} className="rounded-lg w-full sm:w-[500px] p-3 bg-red-600 text-white uppercase">
               Update
             </button>
           }
           {
             !existTodo&&
-            <button  className="rounded-lg w-[500px] p-3 bg-green-600 text-white uppercase">
+            <button  className="rounded-lg w-full sm:w-[500px] p-3 bg-green-600 text-white uppercase">
               Create
             </button>
           }
